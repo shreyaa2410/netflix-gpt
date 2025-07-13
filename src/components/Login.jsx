@@ -1,28 +1,35 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import checkValidate from "../utils/Validate";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate= useNavigate();
   const [isLogged,setisLogged]=useState(false);
   const [error,setError]=useState(null);
   const name= useRef(null);
   const email=useRef(null);
   const password=useRef(null);
   const handleLogin=()=>{
-    const message= checkValidate(name.current.value,email.current.value,password.current.value);
-        setError(message); 
+   const username = isLogged ? "" : name.current?.value;
+    const message = checkValidate(username, email.current.value, password.current.value, isLogged);
+    setError(message);
+    if(!error){
+     navigate('/browse');
+    }
   }
   const handleOption=()=>{
     setisLogged(!isLogged);
+    setError(null);
   }
   return (
     <>
       <Header />
       <div className="login relative w-screen h-screen z-1 top-0 left-0">
-        <div class="container">
+        <div className="container">
           <img className="w-screen absolute h-screen object-cover" src="/homenetflixbg.jpg" alt="bg-image"/>
           <div className="loginform absolute w-96 z-2 p-6 bg-black opacity-70 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
             <form onSubmit={(e)=>e.preventDefault()}>
-               {error!="" && <p className="bold-2 text-red-700 my-2">{error}</p> }
+               {error  && <p className="bold-2 text-red-700 my-2">{error}</p> }
                {!isLogged && (
                  <input ref={name} className="w-full p-2 my-2 bg-white" placeholder="name" type="text" name="name"/>
                )}
