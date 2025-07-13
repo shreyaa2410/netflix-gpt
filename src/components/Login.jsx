@@ -9,9 +9,7 @@ const Login = () => {
   const password=useRef(null);
   const handleLogin=()=>{
     const message= checkValidate(name.current.value,email.current.value,password.current.value);
-    if(message!=""){
         setError(message); 
-    }
   }
   const handleOption=()=>{
     setisLogged(!isLogged);
@@ -24,7 +22,7 @@ const Login = () => {
           <img className="w-screen absolute h-screen object-cover" src="/homenetflixbg.jpg" alt="bg-image"/>
           <div className="loginform absolute w-96 z-2 p-6 bg-black opacity-70 transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
             <form onSubmit={(e)=>e.preventDefault()}>
-               {error!=null && <p className="bold-2 text-red-700 my-2">{error}</p> }
+               {error!="" && <p className="bold-2 text-red-700 my-2">{error}</p> }
                {!isLogged && (
                  <input ref={name} className="w-full p-2 my-2 bg-white" placeholder="name" type="text" name="name"/>
                )}
