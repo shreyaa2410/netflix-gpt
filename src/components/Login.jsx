@@ -4,6 +4,7 @@ import checkValidate from "../utils/Validate";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebaseConfig";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { addUser } from "../utils/userSlice";
 const Login = () => {
   const navigate = useNavigate();
   const [isLogged, setisLogged] = useState(false);
@@ -11,6 +12,9 @@ const Login = () => {
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
+   const dispatch = useDispatch();
+
+
   const handleLogin = () => {
     const username = isLogged ? "" : name.current?.value;
     const message = checkValidate(
@@ -43,8 +47,18 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log("signin");
+          
           // ...
+        }).then(()=>{
+           const { uid, email, displayName, photoURL } =auth.currentUser;
+           dispatch(
+            addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+           )
         })
         .catch((error) => {
           const errorCode = error.code;
