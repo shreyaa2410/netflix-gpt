@@ -3,17 +3,23 @@ import Header from "./Header";
 import checkValidate from "../utils/Validate";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebaseConfig";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile 
+} from "firebase/auth";
 import { addUser } from "../utils/userSlice";
+import USER_AVATAR from "../utils/constants";
+
+
 const Login = () => {
-  const navigate = useNavigate();
   const [isLogged, setisLogged] = useState(false);
   const [error, setError] = useState(null);
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
-   const dispatch = useDispatch();
-
+  const dispatch = useDispatch();
 
   const handleLogin = () => {
     const username = isLogged ? "" : name.current?.value;
@@ -29,36 +35,41 @@ const Login = () => {
         auth,
         email.current.value,
         password.current.value
-      )
-        .then((userCredential) => {
-          // Signed up
+      )  .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-        });
-      // navigate("/browse");
-    } else {
-      signInWithEmailAndPassword(auth,
-        email.current.value,
-        password.current.value)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          
-          // ...
-        }).then(()=>{
-           const { uid, email, displayName, photoURL } =auth.currentUser;
-           dispatch(
-            addUser({
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: USER_AVATAR,
+          })
+            .then(() => {
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
                   uid: uid,
                   email: email,
                   displayName: displayName,
                   photoURL: photoURL,
                 })
-           )
+              );
+            })
+            .catch((error) => {
+              setError(error.message);
+            });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setError(errorCode + "-" + errorMessage);
+        });
+    } else {
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -66,9 +77,9 @@ const Login = () => {
         });
     }
   };
+
   const handleOption = () => {
     setisLogged(!isLogged);
-    setError(null);
   };
   return (
     <>
