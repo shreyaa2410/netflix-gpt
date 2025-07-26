@@ -29,7 +29,9 @@ const Header = () => {
       }
     });
   }, []);
-  const handleSignOut = () => {};
+  const handleSignOut = () => {
+    
+  };
   return (
     <>
       <div className="w-full bg-black text-white py-2 px-4">

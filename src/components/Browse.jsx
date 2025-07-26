@@ -1,11 +1,12 @@
 import React from 'react'
 import Header from './Header'
+import MainContainer from './MainContainer'
 
 const Browse = () => {
   return (
    <>
     <Header/>
-    <div className='relative top-14'>Browse</div>
+     <MainContainer />
    </>
   )
 }
