@@ -5,6 +5,10 @@
   padding: 0;
   text-align: center;
 }
+body{
+  overflow-x: hidden;
+  background: black;
+}
 input{
   border-radius: 7px;
 }
@@ -28,4 +32,13 @@ button{
   z-index: 1;
   left: 0;
   top: 0;
+}
+
+.hero::after{
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,rgba(0, 0, 0, 0.9) 30%, rgba(255, 255, 255, 0.1) 70%);
+  z-index: 0;
 }

@@ -34,7 +34,7 @@ const Header = () => {
   };
   return (
     <>
-      <div className="w-full bg-black text-white py-2 px-4">
+      <div className="w-full bg-gradient-to-b from-black z-10 text-white py-2 px-4 relative">
         <div className="container mx-auto flex justify-between items-center">
           {/* Left: Logo */}
           <div className="max-w-[170px]">

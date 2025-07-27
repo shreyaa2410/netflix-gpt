@@ -10,9 +10,9 @@ const MainContainer = () => {
   const { original_title, overview, id } = movies[0];
   return (
     <>
-    <div className="relative flex justify-start items-center">
+    <div className="hero relative flex justify-start items-center">
       <VideoBackground id={id} />
-      <div className="w-[60%] absolute text-white p-[60px] text-left">
+      <div className="w-[80%] absolute text-white px-[60px] py-[20px] text-left z-[2]">
         <h3>{original_title}</h3>
         <p>{overview}</p>
       </div>
