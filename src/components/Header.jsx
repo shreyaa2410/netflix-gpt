@@ -4,11 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { addUser, removeUser } from "../utils/userSlice";
+import { toggleSearchGpt } from "../utils/gptSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
+  const showgpt= useSelector((store)=>store.gpt.toggleGpt);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -29,9 +31,10 @@ const Header = () => {
       }
     });
   }, []);
-  const handleSignOut = () => {
-    
-  };
+  const handleSignOut = () => {};
+  const handleGptSearch=()=>{
+      dispatch(toggleSearchGpt());
+  }
   return (
     <>
       <div className="w-full bg-gradient-to-b from-black z-10 text-white py-2 px-4 relative">
@@ -46,13 +49,11 @@ const Header = () => {
           </div>
 
           {/* Right: User Info */}
+
           {user && (
             <div className="flex items-center space-x-4">
-              <img
-                className="w-10 h-10"
-                alt="User Icon"
-                src={user.photoURL}
-              />
+              <button className="bg-red-800 p-2 my-2 w-full" onClick={handleGptSearch}>{showgpt?'Homepage':'GPT Search'}</button>
+              <img className="w-10 h-10" alt="User Icon" src={user.photoURL} />
               <button
                 onClick={handleSignOut}
                 className="bg-red-800 p-2 my-2 w-full"
