@@ -84,7 +84,7 @@ const Login = () => {
   return (
     <>
       <Header />
-      <div className="login relative w-screen h-screen z-1 top-0 left-0">
+      <div className="login absolute w-screen h-screen z-1 top-0 left-0">
         <div className="container">
           <img
             className="w-screen absolute h-screen object-cover"
